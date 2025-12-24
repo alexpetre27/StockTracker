@@ -1,4 +1,4 @@
-import { Wallet, Loader2, RefreshCw } from "lucide-react";
+import { DollarSign, Loader2, RefreshCw } from "lucide-react";
 
 interface BudgetInputProps {
   budget: number;
@@ -14,29 +14,71 @@ export function BudgetInput({
   onRefresh,
 }: BudgetInputProps) {
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
-      <div className="flex items-center bg-slate-100 px-4 py-3 rounded-2xl border border-slate-200 w-full sm:w-auto">
-        <Wallet size={18} className="text-slate-400 mr-2" />
+    <div className="flex items-center gap-3">
+      <div className="relative flex items-center">
+        <div className="absolute left-4 text-[var(--color-primary)]">
+          <DollarSign size={20} strokeWidth={2.5} />
+        </div>
         <input
           type="number"
           min="0"
           value={budget === 0 ? "" : budget}
           onChange={(e) => onBudgetChange(e.target.value)}
           placeholder="0"
-          className="bg-transparent font-black text-lg md:text-xl outline-none w-full sm:w-32"
+          className="
+            w-40 md:w-48
+            pl-11 pr-4 py-3.5
+            bg-[var(--color-bg-secondary)]
+            border border-[var(--color-border-light)]
+            rounded-xl
+            font-sans font-semibold text-lg
+            text-[var(--color-text-primary)]
+            placeholder:text-[var(--color-text-muted)]
+            shadow-sm
+            focus-visible:outline-none
+            focus:border-[var(--color-primary)]
+            focus:ring-4
+            focus:ring-[var(--color-primary-soft)]
+            transition-all duration-300
+          "
         />
       </div>
 
       <button
         onClick={onRefresh}
         disabled={loading || budget <= 0}
-        className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-4 rounded-2xl font-bold transition-all disabled:opacity-30 flex items-center justify-center gap-2 active:scale-95"
+        className="
+          group
+          relative
+          px-5 py-3.5
+          bg-[var(--color-primary)]
+          hover:bg-[var(--color-primary-hover)]
+          text-white
+          rounded-xl
+          font-sans font-semibold text-sm
+          transition-all duration-300
+          focus-visible:outline-none
+          focus-visible:ring-4
+          focus-visible:ring-[var(--color-primary-soft)]
+          disabled:opacity-40
+          disabled:cursor-not-allowed
+          active:scale-95
+          shadow-sm
+          hover:shadow-md
+        "
       >
-        {loading ? (
-          <Loader2 className="animate-spin" size={20} />
-        ) : (
-          <RefreshCw size={20} />
-        )}
+        <span className="flex items-center gap-2">
+          {loading ? (
+            <Loader2 className="animate-spin" size={18} />
+          ) : (
+            <>
+              <RefreshCw
+                size={18}
+                className="group-hover:rotate-180 transition-transform duration-500"
+              />
+            </>
+          )}
+        </span>
       </button>
     </div>
   );
