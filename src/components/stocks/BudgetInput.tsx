@@ -16,7 +16,7 @@ export function BudgetInput({
   return (
     <div className="flex items-center gap-3">
       <div className="relative flex items-center">
-        <div className="absolute left-4 text-[var(--color-primary)]">
+        <div className="absolute left-4 text-(--color-primary)">
           <DollarSign size={20} strokeWidth={2.5} />
         </div>
         <input
@@ -28,17 +28,17 @@ export function BudgetInput({
           className="
             w-40 md:w-48
             pl-11 pr-4 py-3.5
-            bg-[var(--color-bg-secondary)]
-            border border-[var(--color-border-light)]
+            bg-(--color-bg-secondary)
+            border border-(--color-border-light)
             rounded-xl
             font-sans font-semibold text-lg
-            text-[var(--color-text-primary)]
-            placeholder:text-[var(--color-text-muted)]
+            text-foreground
+            placeholder:text-(--color-text-muted)
             shadow-sm
             focus-visible:outline-none
-            focus:border-[var(--color-primary)]
+            focus:border-(--color-primary)
             focus:ring-4
-            focus:ring-[var(--color-primary-soft)]
+            focus:ring-(--color-primary-soft)
             transition-all duration-300
           "
         />
@@ -51,15 +51,15 @@ export function BudgetInput({
           group
           relative
           px-5 py-3.5
-          bg-[var(--color-primary)]
-          hover:bg-[var(--color-primary-hover)]
+          bg-(--color-primary)
+          hover:bg-(--color-primary-hover)
           text-white
           rounded-xl
           font-sans font-semibold text-sm
           transition-all duration-300
           focus-visible:outline-none
           focus-visible:ring-4
-          focus-visible:ring-[var(--color-primary-soft)]
+          focus-visible:ring-(--color-primary-soft)
           disabled:opacity-40
           disabled:cursor-not-allowed
           active:scale-95

@@ -12,13 +12,13 @@ export function StockGrid({ data, loading }: StockGridProps) {
     return (
       <div className="py-16 md:py-24">
         <div className="flex flex-col items-center justify-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-[var(--color-bg-tertiary)] flex items-center justify-center">
+          <div className="w-12 h-12 rounded-xl bg-(--color-bg-tertiary) flex items-center justify-center">
             <BarChart3
               size={24}
-              className="text-[var(--color-primary)] animate-pulse"
+              className="text-(--color-primary) animate-pulse"
             />
           </div>
-          <p className="font-sans text-[var(--color-text-tertiary)] animate-pulse">
+          <p className="font-sans text-(--color-text-tertiary) animate-pulse">
             Incarcare date
           </p>
         </div>
@@ -39,14 +39,14 @@ export function StockGrid({ data, loading }: StockGridProps) {
   if (data.length === 0 && !loading) {
     return (
       <div className="py-16 md:py-24">
-        <div className="text-center bg-[var(--color-bg-secondary)] rounded-2xl border-2 border-dashed border-[var(--color-border-medium)] p-12">
-          <div className="w-16 h-16 mx-auto rounded-xl bg-[var(--color-bg-tertiary)] flex items-center justify-center mb-4">
-            <BarChart3 size={28} className="text-[var(--color-text-muted)]" />
+        <div className="text-center bg-(--color-bg-secondary) rounded-2xl border-2 border-dashed border-(--color-border-medium) p-12">
+          <div className="w-16 h-16 mx-auto rounded-xl bg-(--color-bg-tertiary) flex items-center justify-center mb-4">
+            <BarChart3 size={28} className="text-(--color-text-muted)" />
           </div>
-          <p className="font-sans text-xl font-semibold text-[var(--color-text-secondary)] mb-2">
+          <p className="font-sans text-xl font-semibold text-(--color-text-secondary) mb-2">
             Nu exista date
           </p>
-          <p className="font-sans text-sm text-[var(--color-text-tertiary)]">
+          <p className="font-sans text-sm text-(--color-text-tertiary)">
             Introdu o suma
           </p>
         </div>
