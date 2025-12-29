@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 import datetime
 
-DATABASE_URL = "sqlite:///./stocks_portfolio.db"
+DATABASE_URL = "sqlite:///./stocks_data.db"
 
 engine = create_engine(
     DATABASE_URL, connect_args={"check_same_thread": False}
@@ -14,28 +14,24 @@ engine = create_engine(
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
-class Portfolio(Base):
-    __tablename__ = "portfolios"
-
+class Data(Base):
+    __tablename__ = "data_entries"
     id = Column(Integer, primary_key=True, index=True)
     budget = Column(Float)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
-
-    stocks = relationship("StockEntry", back_populates="portfolio", cascade="all, delete")
+    stocks = relationship("StockEntry", back_populates="data", cascade="all, delete")
 
 
 class StockEntry(Base):
     __tablename__ = "stock_entries"
-
     id = Column(Integer, primary_key=True, index=True)
     symbol = Column(String)
     pe = Column(Float, nullable=True)
     pb = Column(Float, nullable=True)
     weight = Column(Float)
     allocation = Column(Float)
-
-    portfolio_id = Column(Integer, ForeignKey("portfolios.id"))
-    portfolio = relationship("Portfolio", back_populates="stocks")
+    data_id = Column(Integer, ForeignKey("data_entries.id"))
+    data = relationship("Data", back_populates="stocks")
 
 
 Base.metadata.create_all(bind=engine)
@@ -47,15 +43,14 @@ class StockBase(BaseModel):
     allocation: float
 
 
-class PortfolioCreate(BaseModel):
+class DataCreate(BaseModel):
     budget: float
     stocks: List[StockBase]
 
 
-class PortfolioResponse(PortfolioCreate):
+class DataResponse(DataCreate):
     id: int
     created_at: datetime.datetime
-
     class Config:
         orm_mode = True
 app = FastAPI()
@@ -76,11 +71,11 @@ def get_db():
         db.close()
 
 @app.post("/save-data")
-def save_data(data: PortfolioCreate, db: Session = Depends(get_db)):
-    portfolio = Portfolio(budget=data.budget)
-    db.add(portfolio)
+def save_data(data: DataCreate, db: Session = Depends(get_db)):
+    data_entry = Data(budget=data.budget)
+    db.add(data_entry)
     db.commit()
-    db.refresh(portfolio)
+    db.refresh(data_entry)
 
     for stock in data.stocks:
         db_stock = StockEntry(
@@ -89,18 +84,18 @@ def save_data(data: PortfolioCreate, db: Session = Depends(get_db)):
             pb=stock.pb,
             weight=stock.weight,
             allocation=stock.allocation,
-            portfolio_id=portfolio.id
+            data_id=data_entry.id
         )
         db.add(db_stock)
 
     db.commit()
     return {
         "message": "Datele au fost salvate cu succes",
-        "portfolio_id": portfolio.id
+        "data_id": data_entry.id
     }
 
 
-@app.get("/portfolios", response_model=List[PortfolioResponse])
-def get_portfolios(db: Session = Depends(get_db)):
-    portfolios = db.query(Portfolio).all()
-    return portfolios
+@app.get("/data_entries", response_model=List[DataResponse])
+def get_data_entries(db: Session = Depends(get_db)):
+    data_entries = db.query(Data).all()
+    return data_entries

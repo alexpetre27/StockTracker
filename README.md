@@ -68,7 +68,7 @@ Click pe "Execute"
 in cazul in care totul este corect, vom primi raspunsul urmator:
 {
 "message": "Datele au fost salvate cu succes",
-"portfolio_id": 1
+"data_id": 1
 }
 Pentru a verifica baza de date:
 Deschidem DB Browser for SQLite
